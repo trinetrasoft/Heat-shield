@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+*.log
+server/node_modules
+web/node_modules
+web/dist
+_extract
+.pgdata
+.pgtool
+.DS_Store
+Thumbs.db
