@@ -121,11 +121,11 @@ function SiteForm({ initial, toast, onDone, onClose }) {
       run(() => api(initial ? `/api/sites/${initial.id}` : "/api/sites", { method: initial ? "PATCH" : "POST", body }), () => { toast(initial ? "Site updated." : "Site created."); onDone(); }, toast);
     }}>
       <h2>{initial ? "Edit site" : "New site"}</h2>
-      <div className="grid" style={{ gridTemplateColumns: "1fr 140px" }}>
+      <div className="grid form-2">
         <label className="field">Name<input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} required /></label>
         <label className="field">Code<input value={form.code} onChange={(event) => setForm({ ...form, code: event.target.value })} required /></label>
       </div>
-      <div className="grid" style={{ gridTemplateColumns: "1fr 1fr 1fr" }}>
+      <div className="grid form-3">
         <label className="field">Latitude<input value={form.latitude} onChange={(event) => setForm({ ...form, latitude: event.target.value })} required /></label>
         <label className="field">Longitude<input value={form.longitude} onChange={(event) => setForm({ ...form, longitude: event.target.value })} required /></label>
         <label className="field">Time zone<input value={form.timezone} onChange={(event) => setForm({ ...form, timezone: event.target.value })} required /></label>
@@ -601,7 +601,7 @@ export function UsersPage({ toast }) {
         event.preventDefault();
         run(() => api("/api/users", { method: "POST", body: form }), (created) => { setSecret(created.temporaryPassword); setForm({ ...form, loginId: "", roleLabel: "" }); users.reload(); }, toast);
       }}>
-        <div className="grid" style={{ gridTemplateColumns: "1.2fr .8fr .8fr" }}>
+        <div className="grid form-3">
           <label className="field">Login ID<input value={form.loginId} onChange={(event) => setForm({ ...form, loginId: event.target.value })} required /></label>
           <label className="field">Display label<input value={form.roleLabel} onChange={(event) => setForm({ ...form, roleLabel: event.target.value })} required /></label>
           <Select label="Role" value={form.role} options={[["org_admin", "Organization admin"], ["safety_lead", "Safety lead"], ["supervisor", "Supervisor"], ["worker", "Worker"], ["analyst", "Analyst"]]} onChange={(role) => setForm({ ...form, role })} />

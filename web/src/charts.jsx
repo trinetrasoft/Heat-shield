@@ -32,7 +32,7 @@ export function DonutChart({ title, items, size = 168, thickness = 22, centerLab
     <div className="chart-block">
       {title && <h2>{title}</h2>}
       <div className="donut-wrap">
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label={title || "Donut chart"}>
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ maxWidth: "100%", height: "auto" }} role="img" aria-label={title || "Donut chart"}>
           <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#e7eeeb" strokeWidth={thickness} />
           {data.length === 0 ? null : data.map((item) => {
             const length = (item.value / total) * circumference;
@@ -72,17 +72,17 @@ export function DonutChart({ title, items, size = 168, thickness = 22, centerLab
 export function BarChart({ title, series, height = 180, colors = ["#0f6e6b", "#c48a1a"] }) {
   const keys = series[0] ? Object.keys(series[0]).filter((key) => key !== "label") : [];
   const max = Math.max(1, ...series.flatMap((point) => keys.map((key) => Number(point[key]) || 0)));
-  const width = Math.max(320, series.length * 42);
+  const width = Math.max(360, series.length * 28);
   const pad = { top: 16, right: 12, bottom: 34, left: 28 };
   const plotW = width - pad.left - pad.right;
   const plotH = height - pad.top - pad.bottom;
   const group = plotW / Math.max(series.length, 1);
-  const barW = Math.max(6, (group - 8) / Math.max(keys.length, 1));
+  const barW = Math.max(4, (group - 6) / Math.max(keys.length, 1));
   return (
     <div className="chart-block">
       {title && <h2>{title}</h2>}
-      <div className="chart-scroll">
-        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label={title || "Bar chart"}>
+      <div className="chart-frame">
+        <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={title || "Bar chart"}>
           {[0, 0.25, 0.5, 0.75, 1].map((tick) => {
             const y = pad.top + plotH - tick * plotH;
             return (
@@ -93,7 +93,7 @@ export function BarChart({ title, series, height = 180, colors = ["#0f6e6b", "#c
             );
           })}
           {series.map((point, index) => {
-            const x0 = pad.left + index * group + 4;
+            const x0 = pad.left + index * group + 3;
             return (
               <g key={point.label}>
                 {keys.map((key, keyIndex) => {
@@ -102,12 +102,12 @@ export function BarChart({ title, series, height = 180, colors = ["#0f6e6b", "#c
                   const x = x0 + keyIndex * barW;
                   const y = pad.top + plotH - h;
                   return (
-                    <rect key={key} x={x} y={y} width={barW - 2} height={Math.max(h, value ? 2 : 0)} rx="3" fill={colors[keyIndex % colors.length]}>
+                    <rect key={key} x={x} y={y} width={Math.max(barW - 1.5, 2)} height={Math.max(h, value ? 2 : 0)} rx="3" fill={colors[keyIndex % colors.length]}>
                       <title>{`${point.label} ${key}: ${value}`}</title>
                     </rect>
                   );
                 })}
-                <text x={x0 + (group - 8) / 2} y={height - 12} textAnchor="middle" className="chart-axis">{point.label}</text>
+                <text x={x0 + (group - 6) / 2} y={height - 12} textAnchor="middle" className="chart-axis">{point.label}</text>
               </g>
             );
           })}
@@ -150,7 +150,7 @@ export function HorizontalBars({ title, items, valueLabel = "count" }) {
 export function LineChart({ title, series, height = 180, colors = ["#0f6e6b", "#c45c12"] }) {
   const keys = series[0] ? Object.keys(series[0]).filter((key) => key !== "label") : [];
   const max = Math.max(1, ...series.flatMap((point) => keys.map((key) => Number(point[key]) || 0)));
-  const width = Math.max(320, series.length * 36);
+  const width = Math.max(360, series.length * 24);
   const pad = { top: 16, right: 12, bottom: 34, left: 28 };
   const plotW = width - pad.left - pad.right;
   const plotH = height - pad.top - pad.bottom;
@@ -163,8 +163,8 @@ export function LineChart({ title, series, height = 180, colors = ["#0f6e6b", "#
   return (
     <div className="chart-block">
       {title && <h2>{title}</h2>}
-      <div className="chart-scroll">
-        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label={title || "Line chart"}>
+      <div className="chart-frame">
+        <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={title || "Line chart"}>
           {[0, 0.5, 1].map((tick) => {
             const y = pad.top + plotH - tick * plotH;
             return (
